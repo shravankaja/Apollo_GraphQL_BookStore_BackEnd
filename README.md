@@ -3,7 +3,7 @@ The Apollo GraphQL Platform
 
      The apollo platform helps you build, query and manage the data graph. 
 
-        Data graph - is a unified data layers that enables interaction to the data form any comination of data sources and external API's.
+        Data graph - i ddds a unified data layers that enables interaction to the data form any comination of data sources and external API's.
 
 A data graph sits between applicaiton client and backend  services, facilitating flow of data between them.
 

@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "The Apollo GraphQL Platform",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "start": "nodemon ApolloServer/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shravankaja/Apollo_GraphQL_BookStore_BackEnd.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shravankaja/Apollo_GraphQL_BookStore_BackEnd/issues"
+  },
+  "homepage": "https://github.com/shravankaja/Apollo_GraphQL_BookStore_BackEnd#readme",
+  "devDependencies": {
+    "husky": "^7.0.0",
+    "nodemon": "^2.0.12",
+    "prettier": "2.3.2"
+  },
+  "dependencies": {
+    "apollo-server": "^3.0.2",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "graphql": "^15.5.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.4",
+    "validator": "^13.6.0"
+  }
+}

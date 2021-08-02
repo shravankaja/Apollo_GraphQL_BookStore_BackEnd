@@ -1,10 +1,8 @@
-const {signUp,signIn} = require('../Mutations/Users/users')
-
+const { signUp, signIn } = require("../Mutations/Users/users");
 
 exports.resolvers = {
-        Mutation : {
-                 signUp,
-                                      signIn
-
-        }
-}
+  Mutation: {
+    signUp,
+    signIn,
+  },
+};

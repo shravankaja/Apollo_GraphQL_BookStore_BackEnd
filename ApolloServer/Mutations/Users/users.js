@@ -5,9 +5,11 @@ const {
   emailRegEx,
   passwordRegEx,
 } = require("../../Constants/RegExprs");
-const userSchema = require("../../../DB/Models/userSchema");
-const bycrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const userSchema = require("../../../Models/userSchema");
+const {
+  encryptPassword,
+  passwordCheckReturnAcessToken,
+} = require("../../Helpers/signUpAndSignIn.js");
 
 exports.signUp = async (_, { fullName, email, phone, password }) => {
   console.log("email :", email);
@@ -41,9 +43,8 @@ exports.signUp = async (_, { fullName, email, phone, password }) => {
         message: "Email already exsists",
       };
     }
-    let salt = await bycrypt.genSalt();
-    let encryptedPassword = bycrypt.hashSync(password, salt);
-    console.log(encryptedPassword);
+
+    let encryptedPassword = await encryptPassword(password);
 
     let user = userSchema({
       fullName: fullName,
@@ -52,27 +53,16 @@ exports.signUp = async (_, { fullName, email, phone, password }) => {
       password: encryptedPassword,
     });
 
-    function addToDb() {
-      return new Promise((resolve, reject) => {
-        user
-          .save()
-          .then((doc) => {
-            console.log(doc);
-            resolve("done");
-          })
-          .catch((err) => {
-            reject("err");
-            return {
-              message: err,
-            };
-          });
+    user
+      .save()
+      .then((doc) => {
+        console.log(doc);
+      })
+      .catch((err) => {
+        return {
+          message: err,
+        };
       });
-    }
-    addToDb().then((resp) => {
-      if (resp == "done") {
-        console.log("Promise Working");
-      }
-    });
     return {
       message: "User Added Successfully",
     };
@@ -90,29 +80,23 @@ exports.signIn = async (_, { email, password }) => {
     if (obj.length == 0) {
       return {
         message: "Email is not registered",
-        code: "FAIL",
         accessToken: null,
       };
     } else if (obj.length == 1) {
-      let passwordCheck = await bycrypt.compare(password, obj[0].password);
-      if (passwordCheck) {
-        const accessToken = jwt.sign(
-          { email: email },
-          process.env.ACCESS_TOKEN_SECRET
-        );
-        console.log(accessToken);
-        return {
-          message: "Login sccuessfull",
-          code: "SUCCESS",
-          accessToken: accessToken,
-        };
-      } else {
-        return {
-          message: "Please check password",
-          code: "FAIL",
-          accessToken: null,
-        };
-      }
+      let accessToken = passwordCheckReturnAcessToken(
+        password,
+        obj[0].password,
+        email
+      );
+      return {
+        message: "Login sccuessfull",
+        accessToken: accessToken,
+      };
+    } else {
+      return {
+        message: "Please check password",
+        accessToken: null,
+      };
     }
   } catch (err) {
     return {

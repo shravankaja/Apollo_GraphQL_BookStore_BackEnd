@@ -11,28 +11,17 @@ exports.typeDefs = gql`
   type Query {
     users: [User]
   }
-
   type Mutation {
-    addUser(
-      fullName: String
-      email: String
-      password: String
-      phone: Float
-    ): User
     signUp(
       fullName: String
       email: String
       password: String
       phone: Float
     ): Message
-    signIn(email: String, password: String): SignInResponse
+    signIn(email: String, password: String): Message
   }
   type Message {
     message: String
-  }
-  type SignInResponse {
-    message: String
-    code: String
     accessToken: ID
   }
 `;
